@@ -1,9 +1,13 @@
 # task_manager/views.py
 # Файл для представлений (views) основного приложения task_manager
 
-from django.http import HttpResponse
+# Импортируем функцию 'render' вместо 'HttpResponse'
+from django.shortcuts import render
 
-# Простое представление, которое возвращает текстовый ответ
+# Представление для главной страницы
 def index(request):
-    # Возвращаем HTTP-ответ с текстом приветствия
-    return HttpResponse("Это менеджер задач от Хекслет")
+    # Используем функцию render()
+    # Первый аргумент - объект запроса (request)
+    # Второй аргумент - путь к файлу шаблона ('index.html')
+    # Django будет искать 'index.html' в папке 'templates'
+    return render(request, 'index.html')

@@ -1,0 +1,56 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="ru" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {# Загружаем CSS Bootstrap 5 #}
+    {% bootstrap_css %}
+    <title>{% block title %}Менеджер задач{% endblock %}</title>
+</head>
+<body class="d-flex flex-column h-100">
+    {# Навигационная панель (Navbar) из Bootstrap #}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <div class="container">
+            {# Ссылка на главную страницу #}
+            <a class="navbar-brand" href="/">Менеджер задач</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0"> {# Используем me-auto чтобы остальные элементы могли уйти вправо, если появятся #}
+        {# Ссылка на список пользователей (пока не работает) #}
+        <li class="nav-item">
+            <a class="nav-link" href="#">Пользователи</a>
+        </li>
+        {# Ссылки для входа/регистрации (теперь слева) #}
+        <li class="nav-item">
+            <a class="nav-link" href="#">Вход</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Регистрация</a>
+        </li>
+        {# Позже здесь будет логика для отображения "Выход", если пользователь вошел #}
+    </ul>
+    {# Оставим место для возможных элементов справа, если понадобятся #}
+    {# <ul class="navbar-nav ms-auto"> ... </ul> #}
+</div>
+        </div>
+    </nav>
+
+    {# Основной контейнер для контента страницы #}
+    <main class="container flex-grow-1">
+        {# Сюда будет вставляться содержимое дочерних шаблонов #}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {# Подвал как в эталоне #}
+         <footer class="container my-5 pt-4 border-top">
+            <a target="_blank" href="https://github.com/Jevda">Jevda</a>
+         </footer>
+
+    {# Загружаем JavaScript Bootstrap 5 (необходим для некоторых компонентов) #}
+    {% bootstrap_javascript %}
+</body>
+</html>

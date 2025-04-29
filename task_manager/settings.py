@@ -30,12 +30,11 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'True') != 'False'
 # Список разрешенных хостов.
 # 'webserver' нужен для тестов Хекслета.
 # '127.0.0.1' и 'localhost' - для локальной разработки.
-# Добавь сюда URL твоего приложения на Render.com, когда он будет известен.
 ALLOWED_HOSTS = [
     'webserver',
     '127.0.0.1',
     'localhost',
-    # 'your-app-name.onrender.com' # Раскомментируй и замени на свой URL
+    'https://python-project-52-tvt9.onrender.com',
 ]
 
 

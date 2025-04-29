@@ -117,3 +117,4 @@ cython_debug/
 
 # Static files collected by Django's collectstatic
 staticfiles/
+/.python-version

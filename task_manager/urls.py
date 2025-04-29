@@ -2,15 +2,20 @@
 # Основной файл URL-маршрутизации проекта task_manager
 
 from django.contrib import admin
-from django.urls import path
-# Импортируем наше созданное представление 'index' из views.py
+from django.urls import path, include
 from task_manager import views
+# Исправляем импорт views из users
+from users import views as views_users # <-- ИЗМЕНЕНО (без task_manager.)
 
 urlpatterns = [
-    # Маршрут для админки Django (мы пока ее не используем, но оставим)
-    path('admin/', admin.site.urls),
-    # Маршрут для главной страницы ('')
-    # Он будет вызывать функцию 'index' из нашего файла views.py
-    # name='index' - это имя маршрута, полезно для ссылок в шаблонах
+    # Главная страница
     path('', views.index, name='index'),
+    # Исправляем include
+    path('users/', include('users.urls')), # <-- ИЗМЕНЕНО (без task_manager.)
+    # Вход
+    path('login/', views_users.UserLoginView.as_view(), name='login'),
+    # Выход
+    path('logout/', views_users.UserLogoutView.as_view(), name='logout'),
+    # Админка Django
+    path('admin/', admin.site.urls),
 ]

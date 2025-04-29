@@ -6,51 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {# Загружаем CSS Bootstrap 5 #}
     {% bootstrap_css %}
-    <title>{% block title %}Менеджер задач{% endblock %}</title>
+    <title>{% block title %}Менеджер задач Hexlet{% endblock %}</title>
 </head>
 <body class="d-flex flex-column h-100">
     {# Навигационная панель (Navbar) из Bootstrap #}
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <div class="container">
-            {# Ссылка на главную страницу #}
-            <a class="navbar-brand" href="/">Менеджер задач</a>
+            <a class="navbar-brand" href="{% url 'index' %}">Менеджер задач</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0"> {# Используем me-auto чтобы остальные элементы могли уйти вправо, если появятся #}
-        {# Ссылка на список пользователей (пока не работает) #}
-        <li class="nav-item">
-            <a class="nav-link" href="#">Пользователи</a>
-        </li>
-        {# Ссылки для входа/регистрации (теперь слева) #}
-        <li class="nav-item">
-            <a class="nav-link" href="#">Вход</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Регистрация</a>
-        </li>
-        {# Позже здесь будет логика для отображения "Выход", если пользователь вошел #}
-    </ul>
-    {# Оставим место для возможных элементов справа, если понадобятся #}
-    {# <ul class="navbar-nav ms-auto"> ... </ul> #}
-</div>
+                {# Список ссылок слева #}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:index' %}">Пользователи</a>
+                    </li>
+                    {# Позже здесь будут Статусы, Метки #}
+                </ul>
+                {# Список ссылок справа - меняется в зависимости от статуса аутентификации #}
+                <ul class="navbar-nav"> {# Убран ms-auto, чтобы эти ссылки были слева, как ты просил #}
+                    {% if user.is_authenticated %}
+                        {# Показываем ссылку ВЫХОД, если пользователь ЗАЛОГИНЕН #}
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post" class="nav-link p-0"> {# Используем форму для POST запроса на выход #}
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link">Выход</button> {# Кнопка, стилизованная под ссылку #}
+                            </form>
+                        </li>
+                    {% else %}
+                        {# Показываем ссылки ВХОД и РЕГИСТРАЦИЯ, если пользователь НЕ залогинен #}
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Вход</a>
+                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:create' %}">Регистрация</a>
+                         </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
+    {# Отображаем flash-сообщения Django СРАЗУ ПОД МЕНЮ #}
+    {# Оборачиваем в контейнер, чтобы ширина совпадала с основным контентом #}
+    <div class="container">
+        {% bootstrap_messages %}
+    </div>
+
     {# Основной контейнер для контента страницы #}
     <main class="container flex-grow-1">
-        {# Сюда будет вставляться содержимое дочерних шаблонов #}
         {% block content %}
         {% endblock %}
     </main>
 
-    {# Подвал как в эталоне #}
-         <footer class="container my-5 pt-4 border-top">
-            <a target="_blank" href="https://github.com/Jevda">Jevda</a>
-         </footer>
+    {# Подвал #}
+     <footer class="container my-5 pt-4 border-top">
+        <a target="_blank" href="https://github.com/Jevda">Jevda</a> {# Твоя ссылка #}
+     </footer>
 
-    {# Загружаем JavaScript Bootstrap 5 (необходим для некоторых компонентов) #}
+    {# Загружаем JavaScript Bootstrap 5 #}
     {% bootstrap_javascript %}
 </body>
 </html>

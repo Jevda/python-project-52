@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1"> {# Используем контейнер для ограничения ширины #}
+    <h1 class="my-4">Пользователи</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя пользователя</th>
+                <th>Полное имя</th>
+                <th>Дата создания</th>
+                <th>Действия</th> {# Колонка для ссылок Изменить/Удалить #}
+            </tr>
+        </thead>
+        <tbody>
+            {# Цикл по списку пользователей, переданному из View #}
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                {# Отображаем дату создания в нужном формате #}
+                <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
+                <td>
+                    {# Обновленная ссылка "Изменить" #}
+                    <a href="{% url 'users:update' user.pk %}">Изменить</a>
+                    <br> {# Перенос строки для второй ссылки #}
+                    {# Обновленная ссылка "Удалить" #}
+                    <a href="{% url 'users:delete' user.pk %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

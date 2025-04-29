@@ -2,7 +2,14 @@
 # Exit on error
 set -o errexit
 
-# Установка зависимостей
+# Устанавливаем uv (пакетный менеджер)
+echo "Installing uv..."
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Добавляем uv в PATH для текущей сессии
+source $HOME/.local/bin/env
+echo "uv installed successfully."
+
+# Установка зависимостей Python через make (который вызовет uv sync)
 echo "Installing dependencies..."
 make install
 

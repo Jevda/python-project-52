@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Статусы{% endblock %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">Статусы</h1>
+
+    {# Ссылка для создания нового статуса #}
+    <a class="btn btn-primary mb-3" href="{% url 'statuses:create' %}">Создать статус</a>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Дата создания</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Цикл по списку статусов, переданному из View #}
+            {% for status in statuses %}
+            <tr>
+                <td>{{ status.id }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
+                <td>
+                    {# Ссылка "Изменить" #}
+                    <a href="{% url 'statuses:update' status.pk %}">Изменить</a>
+                    <br>
+                    {# Обновленная ссылка "Удалить" #}
+                    <a href="{% url 'statuses:delete' status.pk %}">Удалить</a> {# <-- ИЗМЕНЕНО ЗДЕСЬ #}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

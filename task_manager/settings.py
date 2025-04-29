@@ -29,12 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'django_filters',
-
-    # Наши приложения (путь изменен)
-    'users.apps.UsersConfig', # <-- ИЗМЕНЕНО (без task_manager.)
-    # 'statuses.apps.StatusesConfig',
-    # 'tasks.apps.TasksConfig',
-    # 'labels.apps.LabelsConfig',
+    'users.apps.UsersConfig',
+    'statuses.apps.StatusesConfig',
 ]
 
 MIDDLEWARE = [
@@ -95,3 +91,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# --- ДОБАВЛЕНО ---
+# URL, на который перенаправляются пользователи, если доступ требует логина
+LOGIN_URL = 'login' # Указываем имя URL-маршрута для нашей страницы входа

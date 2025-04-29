@@ -1,0 +1,47 @@
+# Файл конфигурации проекта
+
+[project]
+# Имя пакета, как требуется для тестов Хекслета [cite: 8]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Task manager application built with Django"
+authors = [
+    { name = "Jevda", email = "alekzanya@gmail.com" }, # Замени на свои данные
+]
+dependencies = [
+    "dj-database-url>=2.3.0",
+    # Зависимости будут добавлены на следующем шаге
+    "django>=5.2",
+    "django-bootstrap5>=25.1",
+    "django-filter>=25.1",
+    "gunicorn>=23.0.0",
+    "psycopg>=3.2.6",
+    "python-dotenv>=1.1.0",
+    "whitenoise>=6.9.0",
+]
+requires-python = ">=3.10" # Указываем минимальную версию Python [cite: 4]
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.urls]
+Homepage = "https://github.com/Jevda/python-project-52"  # Замени на свой URL репозитория
+Repository = "https://github.com/Jevda/python-project-52" # Замени на свой URL репозитория
+
+# Секции, необходимые для сборки пакета, согласно комментарию наставника
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Указываем, что пакет task_manager будет основным в сборке
+# Мы создадим его на следующих шагах при инициализации Django
+packages = ["task_manager"]
+
+[tool.ruff]
+# Настройки линтера ruff (пока пустые, добавим позже)
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+[tool.ruff.format]
+# Настройки форматирования (пока пустые, добавим позже)

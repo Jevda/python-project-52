@@ -21,7 +21,6 @@ class StatusesIndexView(LoginRequiredMixin, ListView):
     context_object_name = "statuses"
 
 
-# E302 fix: added blank line
 # Представление для СОЗДАНИЯ статуса
 class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
@@ -31,7 +30,6 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Статус успешно создан"
 
 
-# E302 fix: added blank line
 # Представление для РЕДАКТИРОВАНИЯ статуса
 class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
@@ -41,7 +39,6 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Статус успешно изменен"
 
 
-# E302 fix: added blank line
 # Представление для УДАЛЕНИЯ статуса
 class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Status
@@ -50,7 +47,6 @@ class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     # Сообщение об успехе будет добавлено вручную при успешном удалении
     # success_message = "Статус успешно удален" # Убираем авто-сообщение
 
-    # E501 fix: wrapped comment line
     # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Переопределяем метод post ---
     # --- для обработки ProtectedError ---
     def post(self, request, *args, **kwargs):

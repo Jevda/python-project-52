@@ -16,10 +16,9 @@ urlpatterns = [
     # Редактирование статуса (/statuses/<int:pk>/update/)
     path("<int:pk>/update/", views.StatusUpdateView.as_view(), name="update"),
     # Удаление статуса (/statuses/<int:pk>/delete/)
-    # E501/E261 fix: перенос + 2 пробела перед комментарием
     path(
         "<int:pk>/delete/",
         views.StatusDeleteView.as_view(),
         name="delete",
-    ),  # <-- Добавили эту строку
+    )  # <-- Добавили эту строку
 ]

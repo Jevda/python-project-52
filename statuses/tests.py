@@ -47,7 +47,6 @@ class StatusViewsTests(TestCase):
         self.assertEqual(response.url.split("?")[0], self.login_url)
 
     def test_status_list_view_get_success(self):
-        # E501 fix
         """Проверяет доступность и шаблон списка статусов
         для залогиненного пользователя."""
         response = self.client.get(self.statuses_index_url)

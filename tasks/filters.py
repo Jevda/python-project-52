@@ -2,39 +2,39 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-# Импортируем ChoiceFilter вместо ModelChoiceFilter для executor
+# Импортируем нужные классы фильтров
 from django_filters import FilterSet, ModelChoiceFilter, BooleanFilter, ChoiceFilter
 
 from .models import Task
 from statuses.models import Status
 from labels.models import Label
 
-# Убираем импорт UserChoiceField, он здесь не нужен
-# from .forms import UserChoiceField
-
 # Класс Фильтра
 class TaskFilter(FilterSet):
 
-    # --- ИСПОЛЬЗУЕМ ChoiceFilter для executor ---
+    # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Добавляем empty_label ---
     executor = ChoiceFilter(
         label=_('Исполнитель'),
+        # !!! Указываем текст для пустого значения здесь !!!
+        empty_label=_('Все исполнители'),
         # Choices будут заданы в __init__ ниже
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
+    # --- КОНЕЦ ИЗМЕНЕНИЯ ---
 
-    # Фильтр по статусу (остается ModelChoiceFilter)
+    # Фильтр по статусу
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
         label=_('Статус'),
-        empty_label=_('Все статусы'),
+        empty_label=_('Все статусы'), # ModelChoiceFilter также использует empty_label
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
-    # Фильтр по метке (остается ModelChoiceFilter)
+    # Фильтр по метке
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_('Метка'),
-        empty_label=_('Все метки'),
+        empty_label=_('Все метки'), # ModelChoiceFilter также использует empty_label
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
@@ -46,16 +46,18 @@ class TaskFilter(FilterSet):
         widget=forms.CheckboxInput,
     )
 
-    # --- Добавляем __init__ для генерации choices ---
+    # Метод __init__ для генерации choices для executor
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Формируем список вариантов для исполнителя: (pk, full_name)
-        # Добавляем пустой вариант в начало
-        executor_choices = [('', _('Все исполнители'))] + [
-            (user.pk, user.get_full_name()) for user in User.objects.order_by('first_name', 'last_name') # Добавим сортировку
+        # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Убираем ручное добавление пустого варианта ---
+        # Формируем список ТОЛЬКО из пользователей: (pk, full_name)
+        executor_choices = [
+            (user.pk, user.get_full_name()) for user in User.objects.order_by('first_name', 'last_name')
         ]
+        # --- КОНЕЦ ИЗМЕНЕНИЯ ---
         # Присваиваем сформированный список полю choices нашего фильтра executor
         self.filters['executor'].field.choices = executor_choices
+        # Примечание: Django автоматически добавит вариант, указанный в empty_label
 
     def filter_self_tasks(self, queryset, name, value):
         if value:
@@ -66,5 +68,4 @@ class TaskFilter(FilterSet):
 
     class Meta:
         model = Task
-        # Указываем поля модели ИЛИ имена наших полей фильтра
         fields = ['status', 'executor', 'labels', 'self_tasks']

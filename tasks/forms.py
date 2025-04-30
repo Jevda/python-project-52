@@ -9,15 +9,17 @@ class UserChoiceField(forms.ModelChoiceField):
     Кастомное поле для выбора пользователя, отображающее полное имя.
     """
     def label_from_instance(self, obj):
+        # !!! Добавляем print для финальной проверки, если хотите !!!
+        # print(f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, вернул '{obj.get_full_name()}'")
         return obj.get_full_name()
 
 # --- Форма для создания и редактирования Задачи ---
 class TaskForm(forms.ModelForm):
-    # Используем наш кастомный класс и ЯВНО указываем label
+    # --- Явное определение поля executor с ЯВНОЙ меткой ---
     executor = UserChoiceField(
         queryset=User.objects.all(),
         required=False,
-        label='Исполнитель',
+        label='Исполнитель', # !!! Явная метка !!!
         widget=forms.Select(attrs={'class': 'form-select'})
     )
 

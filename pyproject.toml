@@ -1,7 +1,8 @@
+# pyproject.toml
 # Файл конфигурации проекта
 
 [project]
-# Имя пакета, как требуется для тестов Хекслета [cite: 8]
+# Имя пакета, как требуется для тестов Хекслета
 name = "hexlet-code"
 version = "0.1.0"
 description = "Task manager application built with Django"
@@ -10,7 +11,6 @@ authors = [
 ]
 dependencies = [
     "dj-database-url>=2.3.0",
-    # Зависимости будут добавлены на следующем шаге
     "django>=5.2",
     "django-bootstrap5>=25.1",
     "django-filter>=25.1",
@@ -18,8 +18,10 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.1.0",
     "whitenoise>=6.9.0",
+    # Добавьте сюда Rollbar, когда дойдете до Этапа 8
+    # "rollbar>=1.3.0",
 ]
-requires-python = ">=3.10.0" # Указываем минимальную версию Python [cite: 4]
+requires-python = ">=3.10" # Указываем минимальную версию Python
 readme = "README.md"
 license = { text = "MIT" }
 
@@ -27,21 +29,32 @@ license = { text = "MIT" }
 Homepage = "https://github.com/Jevda/python-project-52"  # Замени на свой URL репозитория
 Repository = "https://github.com/Jevda/python-project-52" # Замени на свой URL репозитория
 
-# Секции, необходимые для сборки пакета, согласно комментарию наставника
+# Секции, необходимые для сборки пакета
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
 [tool.hatch.build.targets.wheel]
-# Указываем, что пакет task_manager будет основным в сборке
-# Мы создадим его на следующих шагах при инициализации Django
-packages = ["task_manager"]
+# Указываем ВСЕ пакеты (папки с __init__.py), которые должны быть включены в сборку
+packages = [
+  "task_manager",
+  "users",
+  "statuses",
+  "tasks",
+  "labels",
+]
+# --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
 [tool.ruff]
-# Настройки линтера ruff (пока пустые, добавим позже)
+# Настройки линтера ruff (можно оставить пустыми или настроить позже)
 
 [tool.ruff.lint]
-select = ["ALL"]
+select = ["ALL"] # Включаем все проверки ruff
 
 [tool.ruff.format]
-# Настройки форматирования (пока пустые, добавим позже)
+# Настройки форматирования (можно оставить пустыми или настроить позже)
+
+# Опционально: Скрипты для запуска (если нужны)
+# [project.scripts]
+# my-script = "my_package.module:main_func"

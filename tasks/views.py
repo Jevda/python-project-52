@@ -18,16 +18,10 @@ class TasksIndexView(LoginRequiredMixin, FilterView):
     context_object_name = 'tasks'
     filterset_class = TaskFilter
 
-    # --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
-    # Метод для передачи request в фильтр
-    def get_filterset_kwargs(self, filterset_class): # Добавляем filterset_class как аргумент
-        # Получаем стандартные аргументы для filterset, передавая filterset_class
+    def get_filterset_kwargs(self, filterset_class):
         kwargs = super().get_filterset_kwargs(filterset_class)
-        # Добавляем объект request в эти аргументы
         kwargs['request'] = self.request
-        # Возвращаем обновленные аргументы
         return kwargs
-    # --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -56,13 +50,18 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_url = reverse_lazy('tasks:index')
     success_message = "Задача успешно удалена"
 
+    # Проверка прав: может ли текущий пользователь удалить задачу?
     def test_func(self):
         task = self.get_object()
+        # Удалить может только автор
         return self.request.user == task.author
 
+    # Обработка ситуации, когда прав нет (test_func вернул False)
     def handle_no_permission(self):
+        # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Заменяем 'ё' на 'е' ---
         messages.error(self.request, "Задачу может удалить только ее автор")
-        return redirect('tasks:index')
+        # --- КОНЕЦ ИЗМЕНЕНИЯ ---
+        return redirect('tasks:index') # Редирект на список задач
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):

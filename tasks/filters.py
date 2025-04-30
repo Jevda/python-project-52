@@ -2,20 +2,19 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+# Импортируем нужные классы из django-filter
 from django_filters import FilterSet, ModelChoiceFilter, BooleanFilter
 
 from .models import Task
 from statuses.models import Status
 from labels.models import Label
 
-# Кастомный класс поля формы (оставляем)
-class UserChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return obj.get_full_name()
+# Убираем кастомный класс UserChoiceField отсюда
 
 # Класс Фильтра
 class TaskFilter(FilterSet):
-    # Фильтр по статусу
+    # Используем СТАНДАРТНЫЙ ModelChoiceFilter для всех полей
+
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
         label=_('Статус'),
@@ -23,19 +22,13 @@ class TaskFilter(FilterSet):
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
-    # --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
-    # Используем ModelChoiceFilter + field_class + ЯВНЫЙ widget
-    executor = ModelChoiceFilter(
+    executor = ModelChoiceFilter( # <-- Стандартный ModelChoiceFilter
         queryset=User.objects.all(),
-        field_class=UserChoiceField, # Используем наш класс для логики отображения
         label=_('Исполнитель'),
         empty_label=_('Все исполнители'),
-        # !!! Возвращаем явное указание виджета !!!
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select'}),
     )
-    # --- КОНЕЦ ИЗМЕНЕНИЯ ---
 
-    # Фильтр по метке
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_('Метка'),
@@ -57,5 +50,5 @@ class TaskFilter(FilterSet):
         return queryset
 
     class Meta:
-        model = Task # Используем класс модели
+        model = Task
         fields = ['status', 'executor', 'labels', 'self_tasks']

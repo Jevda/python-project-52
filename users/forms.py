@@ -1,19 +1,20 @@
 # users/forms.py
 # Файл для форм приложения users
 
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django import forms
+
 
 # Форма регистрации (остается без изменений)
 class UserRegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'username',)
+        fields = ("first_name", "last_name", "username")
         labels = {
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-            'username': 'Имя пользователя',
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "username": "Имя пользователя",
         }
 
 # --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
@@ -25,23 +26,23 @@ class UserUpdateForm(forms.ModelForm):
         label="Пароль",
         required=False,
         widget=forms.PasswordInput,
-        help_text="Оставьте пустым, если не хотите менять пароль."
+        help_text="Оставьте пустым, если не хотите менять пароль.",
     )
     password2 = forms.CharField(
         label="Подтверждение пароля",
         required=False,
         widget=forms.PasswordInput,
-        help_text="Повторите пароль, если меняете его."
+        help_text="Повторите пароль, если меняете его.",
     )
 
     class Meta:
         model = User
         # В Meta указываем только поля профиля (без паролей)
-        fields = ('first_name', 'last_name', 'username',)
+        fields = ("first_name", "last_name", "username")
         labels = {
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-            'username': 'Имя пользователя',
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "username": "Имя пользователя",
         }
 
     # Проверяем, что если пользователь ввел пароль, то оба поля совпадают

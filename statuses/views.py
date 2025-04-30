@@ -1,44 +1,46 @@
 # statuses/views.py
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.contrib.messages.views import SuccessMessageMixin
 # Импортируем систему сообщений и редирект
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+
 # Импортируем ошибку ProtectedError
 from django.db.models import ProtectedError
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from .models import Status
 from .forms import StatusForm
+from .models import Status
+
 
 # Представление для списка статусов
 class StatusesIndexView(LoginRequiredMixin, ListView):
     model = Status
-    template_name = 'statuses/index.html'
-    context_object_name = 'statuses'
+    template_name = "statuses/index.html"
+    context_object_name = "statuses"
 
 # Представление для СОЗДАНИЯ статуса
 class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
-    template_name = 'statuses/create.html'
-    success_url = reverse_lazy('statuses:index')
+    template_name = "statuses/create.html"
+    success_url = reverse_lazy("statuses:index")
     success_message = "Статус успешно создан"
 
 # Представление для РЕДАКТИРОВАНИЯ статуса
 class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
-    template_name = 'statuses/update.html'
-    success_url = reverse_lazy('statuses:index')
+    template_name = "statuses/update.html"
+    success_url = reverse_lazy("statuses:index")
     success_message = "Статус успешно изменен"
 
 # Представление для УДАЛЕНИЯ статуса
 class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Status
-    template_name = 'statuses/delete.html'
-    success_url = reverse_lazy('statuses:index')
+    template_name = "statuses/delete.html"
+    success_url = reverse_lazy("statuses:index")
     # Сообщение об успехе будет добавлено вручную при успешном удалении
     # success_message = "Статус успешно удален" # Убираем авто-сообщение
 
@@ -56,7 +58,7 @@ class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             # Показываем сообщение об ошибке
             messages.error(
                 self.request,
-                "Невозможно удалить статус, потому что он используется"
+                "Невозможно удалить статус, потому что он используется",
             )
             # Делаем редирект обратно на список статусов
             return redirect(self.success_url)

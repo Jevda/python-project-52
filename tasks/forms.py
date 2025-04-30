@@ -1,13 +1,15 @@
 # tasks/forms.py
 from django import forms
 from django.contrib.auth.models import User
+
 from .models import Task
+
 
 # --- Определение UserChoiceField (здесь, один раз) ---
 class UserChoiceField(forms.ModelChoiceField):
+    """Кастомное поле для выбора пользователя, отображающее полное имя.
     """
-    Кастомное поле для выбора пользователя, отображающее полное имя.
-    """
+
     def label_from_instance(self, obj):
         # !!! Добавляем print для финальной проверки, если хотите !!!
         # print(f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, вернул '{obj.get_full_name()}'")
@@ -19,24 +21,24 @@ class TaskForm(forms.ModelForm):
     executor = UserChoiceField(
         queryset=User.objects.all(),
         required=False,
-        label='Исполнитель', # !!! Явная метка !!!
-        widget=forms.Select(attrs={'class': 'form-select'})
+        label="Исполнитель", # !!! Явная метка !!!
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     class Meta:
         model = Task
-        fields = ['name', 'description', 'status', 'executor', 'labels']
+        fields = ["name", "description", "status", "executor", "labels"]
         labels = {
-            'name': 'Имя',
-            'description': 'Описание',
-            'status': 'Статус',
+            "name": "Имя",
+            "description": "Описание",
+            "status": "Статус",
             # 'executor': 'Исполнитель', # Убрали, т.к. label задан выше
-            'labels': 'Метки',
+            "labels": "Метки",
         }
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "status": forms.Select(attrs={"class": "form-select"}),
             # 'executor': forms.Select(attrs={'class': 'form-select'}), # Убрали, т.к. widget задан выше
-            'labels': forms.SelectMultiple(attrs={'class': 'form-select'}),
+            "labels": forms.SelectMultiple(attrs={"class": "form-select"}),
         }

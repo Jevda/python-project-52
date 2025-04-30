@@ -3,6 +3,7 @@
 
 from django.db import models
 
+
 # Определяем модель для статуса задачи
 class Status(models.Model):
     # Имя статуса: текстовое поле, максимальная длина 100 символов,
@@ -13,14 +14,14 @@ class Status(models.Model):
         unique=True,
         blank=False,
         null=False,
-        verbose_name='Имя'
+        verbose_name="Имя",
     )
     # Дата создания: поле даты и времени,
     # auto_now_add=True означает, что значение установится автоматически
     # при создании объекта и не будет меняться позже.
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания'
+        verbose_name="Дата создания",
     )
 
     # Метод __str__ определяет, как объект будет представлен в виде строки
@@ -32,8 +33,8 @@ class Status(models.Model):
     # Добавляем внутренний класс Meta для дополнительных настроек модели
     class Meta:
         # Имя модели в единственном числе для админки Django
-        verbose_name = 'Статус'
+        verbose_name = "Статус"
         # Имя модели во множественном числе для админки Django
-        verbose_name_plural = 'Статусы'
+        verbose_name_plural = "Статусы"
         # Можно указать сортировку по умолчанию, например, по дате создания
         # ordering = ['created_at']

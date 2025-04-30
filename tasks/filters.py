@@ -2,21 +2,22 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+# Импортируем FilterSet и нужные типы фильтров
 from django_filters import FilterSet, ModelChoiceFilter, BooleanFilter
 
-# !!! ШАГ 1: Возвращаем импорт Task !!!
 from .models import Task
 from statuses.models import Status
 from labels.models import Label
 
-# Кастомный класс поля для выбора пользователя (оставляем)
+# --- Кастомный класс ПОЛЯ ФОРМЫ (оставляем) ---
+# Этот класс отвечает за логику отображения полного имени
 class UserChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.get_full_name()
 
-# Класс фильтра
+# --- Класс Фильтра ---
 class TaskFilter(FilterSet):
-    # Фильтр по статусу
+    # Фильтр по статусу (как был)
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
         label=_('Статус'),
@@ -24,15 +25,20 @@ class TaskFilter(FilterSet):
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
-    # Используем UserChoiceField для исполнителя
-    executor = UserChoiceField(
+    # --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+    # Используем стандартный ModelChoiceFilter, но указываем field_class
+    executor = ModelChoiceFilter(
         queryset=User.objects.all(),
-        label=_('Исполнитель'), # Используем явную метку
+        # !!! Указываем, что для рендеринга поля формы нужно использовать наш UserChoiceField !!!
+        field_class=UserChoiceField,
+        label=_('Исполнитель'), # Метка для фильтра
         empty_label=_('Все исполнители'),
-        widget=forms.Select(attrs={'class': 'form-select'}),
+        # Виджет можно не указывать здесь, т.к. он будет взят из UserChoiceField
+        # widget=forms.Select(attrs={'class': 'form-select'}),
     )
+    # --- КОНЕЦ ИЗМЕНЕНИЯ ---
 
-    # Фильтр по метке
+    # Фильтр по метке (как был)
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_('Метка'),
@@ -40,7 +46,7 @@ class TaskFilter(FilterSet):
         widget=forms.Select(attrs={'class': 'form-select'}),
     )
 
-    # Фильтр "Только свои задачи"
+    # Фильтр "Только свои задачи" (как был)
     self_tasks = BooleanFilter(
         field_name='author',
         label=_('Только свои задачи'),
@@ -48,13 +54,11 @@ class TaskFilter(FilterSet):
         widget=forms.CheckboxInput,
     )
 
-    # Метод для фильтрации "Только свои задачи"
     def filter_self_tasks(self, queryset, name, value):
         if value:
             return queryset.filter(author=self.request.user)
         return queryset
 
     class Meta:
-        # !!! ШАГ 2: Указываем класс модели, а не строку !!!
-        model = Task
+        model = Task # Используем класс модели
         fields = ['status', 'executor', 'labels', 'self_tasks']

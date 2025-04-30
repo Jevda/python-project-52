@@ -29,7 +29,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'tasks:index' %}">Задачи</a>
                         </li>
-                        {# Позже здесь будут Метки #}
+                        {# Ссылка на метки С пространством имен #}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'labels:index' %}">Метки</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav"> {# Ссылки справа #}

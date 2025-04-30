@@ -17,6 +17,15 @@
             <p><strong>Автор:</strong> {{ task.author.get_full_name }}</p>
             <p><strong>Исполнитель:</strong> {{ task.executor.get_full_name|default:"Не назначен" }}</p>
             <p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+
+            {% if task.labels.exists %}
+            <p><strong>Метки:</strong></p>
+            <ul>
+                {% for label in task.labels.all %}
+                <li>{{ label.name }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
         <div class="card-footer">
             <a href="{% url 'tasks:update' task.pk %}" class="btn btn-primary">Изменить</a>

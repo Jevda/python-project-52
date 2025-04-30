@@ -72,7 +72,6 @@ class TaskFilter(FilterSet):
     def filter_self_tasks(self, queryset, name, value):
         if value:
             if hasattr(self, "request") and self.request.user.is_authenticated:
-                # E111/E117 fix: correct indentation
                 return queryset.filter(author=self.request.user)
             return queryset.none()
         return queryset

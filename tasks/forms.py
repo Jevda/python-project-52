@@ -20,7 +20,6 @@ class UserChoiceField(forms.ModelChoiceField):
         return obj.get_full_name()
 
 
-# E302 fix: added blank line
 # --- Форма для создания и редактирования Задачи ---
 class TaskForm(forms.ModelForm):
     # --- Явное определение поля executor с ЯВНОЙ меткой ---

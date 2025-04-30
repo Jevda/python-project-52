@@ -152,10 +152,17 @@ class TaskViewsTests(TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, self.tasks_index_url)
 
-        # Проверка, что задача удалена
-        task_exists_after_delete = Task.objects.filter(pk=task_pk_to_delete).exists()
-        self.assertFalse(task_exists_after_delete, "Задача не была удалена из БД")
-        self.assertEqual(Task.objects.count(), initial_task_count - 1, "Количество задач не уменьшилось")
+        # Проверка, что задача удалена (E501 fixes)
+        task_exists_after_delete = Task.objects.filter(
+            pk=task_pk_to_delete,
+        ).exists()
+        self.assertFalse(
+            task_exists_after_delete, "Задача не была удалена из БД",
+        )
+        self.assertEqual(
+            Task.objects.count(), initial_task_count - 1,
+            "Количество задач не уменьшилось",
+        )
 
     def test_task_delete_view_not_author_forbidden(self):
         """Проверяет, что не автор не может удалить задачу."""
@@ -181,8 +188,11 @@ class TaskViewsTests(TestCase):
         # Проверка, что произошел редирект (запрещено)
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
 
-        # Проверка, что задача не удалена
-        self.assertTrue(Task.objects.filter(pk=other_task.pk).exists(), "Задача была удалена не автором")
+        # Проверка, что задача не удалена (E501 fix)
+        self.assertTrue(
+            Task.objects.filter(pk=other_task.pk).exists(),
+            "Задача была удалена не автором",
+        )
 
     # --- НОВЫЕ ТЕСТЫ ДЛЯ ФИЛЬТРАЦИИ ---
     def test_task_filter_by_status(self):
@@ -239,7 +249,8 @@ class TaskViewsTests(TestCase):
             name="Task from another user",
             description="Description",
             status=self.status,
-            author=self.other_user, # Автор - другой пользователь
+            # E261 fix: added spaces
+            author=self.other_user,  # Автор - другой пользователь
         )
 
         # Формируем URL с параметром фильтрации self_tasks=on

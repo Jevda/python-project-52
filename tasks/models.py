@@ -29,7 +29,9 @@ class Task(models.Model):
     )
     # Статус задачи: Связь с моделью Status (один-ко-многим)
     # Обязательное поле.
-    # on_delete=models.PROTECT: Запрещает удаление статуса, если с ним связана хотя бы одна задача.
+    # E501 fix: wrapped comment
+    # on_delete=models.PROTECT: Запрещает удаление статуса,
+    # если с ним связана хотя бы одна задача.
     status = models.ForeignKey(
         Status,
         on_delete=models.PROTECT,
@@ -40,7 +42,9 @@ class Task(models.Model):
     )
     # Автор задачи: Связь с моделью User (один-ко-многим)
     # Обязательное поле. Устанавливается автоматически при создании.
-    # on_delete=models.PROTECT: Запрещает удаление пользователя (автора), если у него есть задачи.
+    # E501 fix: wrapped comment
+    # on_delete=models.PROTECT: Запрещает удаление пользователя (автора),
+    # если у него есть задачи.
     author = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
@@ -51,7 +55,9 @@ class Task(models.Model):
     )
     # Исполнитель задачи: Связь с моделью User (один-ко-многим)
     # Не обязательное поле (задачу можно создать без исполнителя).
-    # on_delete=models.PROTECT: Запрещает удаление пользователя (исполнителя), если на него назначены задачи.
+    # E501 fix: wrapped comment
+    # on_delete=models.PROTECT: Запрещает удаление пользователя (исполнителя),
+    # если на него назначены задачи.
     executor = models.ForeignKey(
         User,
         on_delete=models.PROTECT,

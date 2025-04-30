@@ -2,9 +2,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-
-# Импортируем нужные классы фильтров
-from django_filters import BooleanFilter, ChoiceFilter, FilterSet, ModelChoiceFilter
+# E501 fix: wrapped import
+from django_filters import (
+    BooleanFilter, ChoiceFilter, FilterSet, ModelChoiceFilter,
+)
 
 from labels.models import Label
 from statuses.models import Status
@@ -29,7 +30,8 @@ class TaskFilter(FilterSet):
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
         label=_("Статус"),
-        empty_label=_("Все статусы"), # ModelChoiceFilter также использует empty_label
+        # E261/E501 fix: spaces + wrapped line
+        empty_label=_("Все статусы"),  # ModelChoiceFilter также использует empty_label
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -37,7 +39,8 @@ class TaskFilter(FilterSet):
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_("Метка"),
-        empty_label=_("Все метки"), # ModelChoiceFilter также использует empty_label
+        # E261/E501 fix: spaces + wrapped line
+        empty_label=_("Все метки"),  # ModelChoiceFilter также использует empty_label
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -54,18 +57,23 @@ class TaskFilter(FilterSet):
         super().__init__(*args, **kwargs)
         # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Убираем ручное добавление пустого варианта ---
         # Формируем список ТОЛЬКО из пользователей: (pk, full_name)
+        # E501 fix: wrapped line
         executor_choices = [
-            (user.pk, user.get_full_name()) for user in User.objects.order_by("first_name", "last_name")
+            (user.pk, user.get_full_name())
+            for user in User.objects.order_by("first_name", "last_name")
         ]
         # --- КОНЕЦ ИЗМЕНЕНИЯ ---
         # Присваиваем сформированный список полю choices нашего фильтра executor
         self.filters["executor"].field.choices = executor_choices
-        # Примечание: Django автоматически добавит вариант, указанный в empty_label
+        # E501 fix: wrapped line
+        # Примечание: Django автоматически добавит вариант,
+        # указанный в empty_label
 
     def filter_self_tasks(self, queryset, name, value):
         if value:
             if hasattr(self, "request") and self.request.user.is_authenticated:
-                 return queryset.filter(author=self.request.user)
+                # E111/E117 fix: correct indentation
+                return queryset.filter(author=self.request.user)
             return queryset.none()
         return queryset
 

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'statuses.apps.StatusesConfig',
     'tasks.apps.TasksConfig',
-    'labels.apps.LabelsConfig',  # Добавили приложение labels
+    'labels.apps.LabelsConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,12 +76,23 @@ DATABASES = {
     )
 }
 
+# --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+# Определяем валидаторы паролей
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+    {
+        # Используем только валидатор минимальной длины
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        # Устанавливаем минимальную длину в 3 символа
+        'OPTIONS': {
+            'min_length': 3,
+        }
+    },
+    # Убрали остальные стандартные валидаторы:
+    # {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    # {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    # {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
+# --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
 LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Europe/Riga'

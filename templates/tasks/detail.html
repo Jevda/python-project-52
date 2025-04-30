@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Просмотр задачи{% endblock %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">Просмотр задачи</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ task.name }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Описание:</strong> {{ task.description }}</p>
+            <p><strong>Статус:</strong> {{ task.status.name }}</p>
+            <p><strong>Автор:</strong> {{ task.author.get_full_name }}</p>
+            <p><strong>Исполнитель:</strong> {{ task.executor.get_full_name|default:"Не назначен" }}</p>
+            <p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'tasks:update' task.pk %}" class="btn btn-primary">Изменить</a>
+            {% if request.user == task.author %}
+                <a href="{% url 'tasks:delete' task.pk %}" class="btn btn-danger">Удалить</a>
+            {% endif %}
+            <a href="{% url 'tasks:index' %}" class="btn btn-secondary">Назад</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

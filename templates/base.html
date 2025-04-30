@@ -25,10 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'statuses:index' %}">Статусы</a>
                         </li>
-                        {# Позже здесь будут Метки и Задачи #}
+                        {# Ссылка на задачи С пространством имен #}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:index' %}">Задачи</a>
+                        </li>
+                        {# Позже здесь будут Метки #}
                     {% endif %}
                 </ul>
-                <ul class="navbar-nav"> {# Ссылки слева #}
+                <ul class="navbar-nav"> {# Ссылки справа #}
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                              {# Ссылка на выход БЕЗ пространства имен #}

@@ -20,17 +20,25 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
+    # Стандартные приложения Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # Whitenoise
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+
+    # Сторонние приложения
     'django_bootstrap5',
     'django_filters',
+
+    # Наши приложения
     'users.apps.UsersConfig',
     'statuses.apps.StatusesConfig',
+    'tasks.apps.TasksConfig', # <-- Добавили эту строку
+    # 'labels.apps.LabelsConfig',     # Добавим позже
 ]
 
 MIDDLEWARE = [
@@ -91,7 +99,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-# --- ДОБАВЛЕНО ---
-# URL, на который перенаправляются пользователи, если доступ требует логина
-LOGIN_URL = 'login' # Указываем имя URL-маршрута для нашей страницы входа
+LOGIN_URL = 'login'

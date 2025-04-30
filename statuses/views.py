@@ -1,15 +1,14 @@
 # statuses/views.py
-# Файл для представлений приложения statuses
-
-# Добавляем DeleteView
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-# Пока не нужно:
-# from django.contrib import messages
+# Импортируем систему сообщений и редирект
+from django.contrib import messages
+from django.shortcuts import redirect
+# Импортируем ошибку ProtectedError
+from django.db.models import ProtectedError
 
-# Импортируем модель Status и форму StatusForm
 from .models import Status
 from .forms import StatusForm
 
@@ -35,13 +34,30 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('statuses:index')
     success_message = "Статус успешно изменен"
 
-# --- Новое представление для УДАЛЕНИЯ статуса ---
+# Представление для УДАЛЕНИЯ статуса
 class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
-    model = Status                  # Используем модель Status
-    template_name = 'statuses/delete.html' # Шаблон подтверждения удаления
-    success_url = reverse_lazy('statuses:index') # URL для редиректа после успеха
-    success_message = "Статус успешно удален" # Flash-сообщение
+    model = Status
+    template_name = 'statuses/delete.html'
+    success_url = reverse_lazy('statuses:index')
+    # Сообщение об успехе будет добавлено вручную при успешном удалении
+    # success_message = "Статус успешно удален" # Убираем авто-сообщение
 
-    # TODO: Позже добавить сюда проверку, связан ли статус с задачами
-    # (переопределив метод post или delete и вызвав ProtectedError
-    # или вернув ошибку/редирект с сообщением)
+    # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Переопределяем метод post для обработки ProtectedError ---
+    def post(self, request, *args, **kwargs):
+        try:
+            # Пытаемся выполнить стандартное удаление из DeleteView
+            response = super().delete(request, *args, **kwargs)
+            # Если удаление прошло успешно (не было ProtectedError),
+            # добавляем сообщение об успехе вручную
+            messages.success(self.request, "Статус успешно удален")
+            return response
+        except ProtectedError:
+            # Если возникла ошибка ProtectedError (статус используется)
+            # Показываем сообщение об ошибке
+            messages.error(
+                self.request,
+                "Невозможно удалить статус, потому что он используется"
+            )
+            # Делаем редирект обратно на список статусов
+            return redirect(self.success_url)
+    # --- КОНЕЦ ИЗМЕНЕНИЯ ---

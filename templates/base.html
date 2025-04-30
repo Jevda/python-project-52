@@ -15,47 +15,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {# Ссылка на пользователей С пространством имен #}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:index' %}">Пользователи</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        {# Ссылка на статусы С пространством имен #}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'statuses:index' %}">Статусы</a>
-                        </li>
-                        {# Ссылка на задачи С пространством имен #}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'tasks:index' %}">Задачи</a>
-                        </li>
-                        {# Ссылка на метки С пространством имен #}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'labels:index' %}">Метки</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav"> {# Ссылки справа #}
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                             {# Ссылка на выход БЕЗ пространства имен #}
-                            <form action="{% url 'logout' %}" method="post" class="nav-link p-0">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link">Выход</button>
-                            </form>
-                        </li>
-                    {% else %}
-                         <li class="nav-item">
-                             {# Ссылка на вход БЕЗ пространства имен #}
-                            <a class="nav-link" href="{% url 'login' %}">Вход</a>
-                         </li>
-                         <li class="nav-item">
-                             {# Ссылка на регистрацию С пространством имен users #}
-                            <a class="nav-link" href="{% url 'users:create' %}">Регистрация</a>
-                         </li>
-                    {% endif %}
-                </ul>
-            </div>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {# Ссылка на пользователей #}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:index' %}">Пользователи</a>
+        </li>
+        {% if user.is_authenticated %}
+            {# Ссылка на статусы #}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'statuses:index' %}">Статусы</a>
+            </li>
+            {# Ссылка на метки #}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'labels:index' %}">Метки</a>
+            </li>
+            {# Ссылка на задачи #}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tasks:index' %}">Задачи</a>
+            </li>
+            {# Ссылка на выход (перенесена из правого блока) #}
+            <li class="nav-item">
+                <form action="{% url 'logout' %}" method="post" class="nav-link p-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link nav-link">Выход</button>
+                </form>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Вход</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:create' %}">Регистрация</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
         </div>
     </nav>
 

@@ -1,16 +1,59 @@
-{% extends "base.html" %}
-{% load django_bootstrap5 %}
+{% extends "base.html" %} {# Наследуем базовый шаблон #}
+{% load django_bootstrap5 %} {# Загружаем теги для Bootstrap 5 #}
 
-{% block title %}Задачи{% endblock %}
+{% block title %}Задачи{% endblock %} {# Определяем заголовок страницы #}
 
-{% block content %}
-<div class="container wrapper flex-grow-1">
-    <h1 class="my-4">Задачи</h1>
+{% block content %} {# Начало блока основного контента #}
+<div class="container wrapper flex-grow-1"> {# Основной контейнер страницы #}
+    <h1 class="my-4">Задачи</h1> {# Заголовок первого уровня #}
 
+    {# Кнопка для перехода на страницу создания задачи #}
     <a class="btn btn-primary mb-3" href="{% url 'tasks:create' %}">Создать задачу</a>
 
+    {# --- Блок с формой фильтра --- #}
+    <div class="card mb-3"> {# Используем карточку Bootstrap для обертки #}
+        <div class="card-body"> {# Тело карточки #}
+            {# Форма фильтра. Метод GET, так как фильтрация не изменяет данные #}
+            <form method="get" class="form-inline">
+                <div class="row"> {# Используем сетку Bootstrap для расположения полей #}
+                    {# Цикл по всем полям формы, предоставленной фильтром #}
+                    {# FilterView передает объект filter в контекст шаблона #}
+                    {% for field in filter.form %}
+                        <div class="col-md-3 mb-2"> {# Каждое поле занимает 3 колонки на средних экранах #}
+                            <div class="form-group"> {# Группа формы #}
+                                {# Специальная обработка для чекбокса 'Только свои задачи' #}
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="form-check mt-4"> {# Добавляем отступ сверху #}
+                                        {# Выводим сам чекбокс #}
+                                        {{ field }}
+                                        {# Выводим метку для чекбокса #}
+                                        <label class="form-check-label" for="{{ field.id_for_label }}">
+                                            {{ field.label }}
+                                        </label>
+                                    </div>
+                                {% else %} {# Обработка остальных полей (Select) #}
+                                    {# Выводим метку поля #}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {# Выводим само поле (Select) #}
+                                    {# Тег 'field' из django-bootstrap5 автоматически применит нужные классы #}
+                                    {{ field }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mt-3"> {# Отступ сверху для кнопки #}
+                    {# Кнопка для отправки формы фильтрации #}
+                    <button type="submit" class="btn btn-primary">Показать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {# --- Конец блока с формой фильтра --- #}
+
+    {# Таблица для отображения задач #}
     <table class="table table-striped">
-        <thead>
+        <thead> {# Заголовок таблицы #}
             <tr>
                 <th>ID</th>
                 <th>Имя</th>
@@ -21,25 +64,37 @@
                 <th>Действия</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> {# Тело таблицы #}
+            {# Цикл по списку задач (переданному из FilterView как context_object_name='tasks') #}
+            {# FilterView автоматически отфильтрует этот список перед передачей в шаблон #}
             {% for task in tasks %}
             <tr>
                 <td>{{ task.id }}</td>
                 <td>
+                    {# Ссылка на детальный просмотр задачи #}
                     <a href="{% url 'tasks:detail' task.pk %}">{{ task.name }}</a>
                 </td>
-                <td>{{ task.status.name }}</td>
-                <td>{{ task.author.get_full_name }}</td>
+                <td>{{ task.status.name }}</td> {# Отображаем имя статуса #}
+                <td>{{ task.author.get_full_name }}</td> {# Отображаем полное имя автора #}
+                {# Отображаем полное имя исполнителя или пустую строку, если исполнитель не назначен #}
                 <td>{{ task.executor.get_full_name|default:"" }}</td>
+                {# Форматируем дату создания #}
                 <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
+                    {# Ссылка на редактирование задачи #}
                     <a href="{% url 'tasks:update' task.pk %}">Изменить</a>
-                    <br>
+                    <br> {# Перенос строки #}
+                    {# Ссылка на удаление задачи #}
                     <a href="{% url 'tasks:delete' task.pk %}">Удалить</a>
                 </td>
+            </tr>
+            {% empty %} {# Если список задач пуст (после фильтрации или изначально) #}
+            <tr>
+                {# Выводим сообщение о том, что задач нет #}
+                <td colspan="7" class="text-center">Нет задач, соответствующих выбранным фильтрам</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</div>
-{% endblock %}
+</div> {# Конец основного контейнера #}
+{% endblock %} {# Конец блока контента #}

@@ -44,7 +44,9 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Задача успешно изменена"
 
 
-class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class TaskDeleteView(
+    LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView
+):
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("tasks:index")
@@ -61,7 +63,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Заменяем 'ё' на 'е' ---
         messages.error(self.request, "Задачу может удалить только ее автор")
         # --- КОНЕЦ ИЗМЕНЕНИЯ ---
-        return redirect("tasks:index") # Редирект на список задач
+        return redirect("tasks:index")  # Редирект на список задач
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):

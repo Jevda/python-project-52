@@ -34,7 +34,8 @@ class TaskFilter(FilterSet):
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
         label=_("Статус"),
-        empty_label=_("Все статусы"),  # ModelChoiceFilter также использует empty_label
+        empty_label=_("Все статусы"),
+        # Примечание об использовании empty_label
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -42,7 +43,8 @@ class TaskFilter(FilterSet):
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_("Метка"),
-        empty_label=_("Все метки"),  # ModelChoiceFilter также использует empty_label
+        empty_label=_("Все метки"),
+        # Примечание об использовании empty_label
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -66,7 +68,7 @@ class TaskFilter(FilterSet):
         # --- КОНЕЦ ИЗМЕНЕНИЯ ---
         # Присваиваем сформированный список полю choices нашего фильтра executor
         self.filters["executor"].field.choices = executor_choices
-        # Примечание: Django автоматически добавит вариант, указанный в empty_label
+        # Django автоматически добавит вариант, указанный в empty_label
 
     def filter_self_tasks(self, queryset, name, value):
         if value:

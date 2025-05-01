@@ -11,9 +11,12 @@ class UserChoiceField(forms.ModelChoiceField):
     """
 
     def label_from_instance(self, obj):
-        # !!! Добавляем print для финальной проверки, если хотите !!!
-        # print(f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, "
-        #       f"вернул '{obj.get_full_name()}'")
+        # Комментарий для отладки, при необходимости
+        # Разбит на несколько строк для соблюдения ограничения в 80 символов
+        # print(
+        #    f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, "
+        #    f"вернул '{obj.get_full_name()}'"
+        # )
         return obj.get_full_name()
 
 

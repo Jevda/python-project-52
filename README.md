@@ -1,6 +1,10 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Jevda/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Jevda/python-project-52/actions)
 
+## Мониторинг ошибок
+
+Проект использует Rollbar для отслеживания ошибок в продакшене. Ошибки автоматически регистрируются и отправляются в систему мониторинга, что позволяет оперативно реагировать на проблемы.
+
 # Менеджер задач / Task Manager (python-project-52)
 
 Учебный проект на Hexlet: веб-приложение "Менеджер задач", разработанное на Django.

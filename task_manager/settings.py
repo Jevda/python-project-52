@@ -119,13 +119,13 @@ LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "login" # Имя URL-маршрута для страницы входа
 
 # Настройки Rollbar (добавленные на этапе 8)
+# Настройки Rollbar
 ROLLBAR = {
-    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN', '69e58c4052284374b805c918bc447096'),
+    'access_token': '69e58c4052284374b805c918bc447096',
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
     'root': BASE_DIR,
 }
 
-# Инициализируем Rollbar
 import rollbar
 rollbar.init(**ROLLBAR)

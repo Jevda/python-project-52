@@ -16,9 +16,5 @@ urlpatterns = [
     # Редактирование статуса (/statuses/<int:pk>/update/)
     path("<int:pk>/update/", views.StatusUpdateView.as_view(), name="update"),
     # Удаление статуса (/statuses/<int:pk>/delete/)
-    path(
-        "<int:pk>/delete/",
-        views.StatusDeleteView.as_view(),
-        name="delete",
-    )  # <-- Добавили эту строку
+    path("<int:pk>/delete/", views.StatusDeleteView.as_view(), name="delete"), # <-- Добавили эту строку
 ]

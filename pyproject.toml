@@ -34,6 +34,7 @@ Repository = "https://github.com/Jevda/python-project-52" # Замени на с
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
 [tool.hatch.build.targets.wheel]
 # Указываем ВСЕ пакеты (папки с __init__.py), которые должны быть включены в сборку
 packages = [
@@ -43,22 +44,16 @@ packages = [
   "tasks",
   "labels",
 ]
+# --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
 [tool.ruff]
 # Настройки линтера ruff (можно оставить пустыми или настроить позже)
 
 [tool.ruff.lint]
 select = ["ALL"] # Включаем все проверки ruff
-ignore = ["RUF003"] # <--- ДОБАВЛЕНА ЭТА СТРОКА
 
 [tool.ruff.format]
 # Настройки форматирования (можно оставить пустыми или настроить позже)
-
-[dependency-groups] # <--- Эта секция была некорректно расположена, перенесена сюда
-dev = [
-    "ruff>=0.11.7",
-]
-
 
 # Опционально: Скрипты для запуска (если нужны)
 # [project.scripts]

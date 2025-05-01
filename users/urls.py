@@ -1,5 +1,5 @@
 # users/urls.py
-"""URL configuration for the users application."""
+# Файл URL-маршрутизации для приложения users
 
 from django.urls import path
 
@@ -16,6 +16,5 @@ urlpatterns = [
     # Редактирование (/users/<int:pk>/update/)
     path("<int:pk>/update/", views.UserUpdateView.as_view(), name="update"),
     # Удаление (/users/<int:pk>/delete/)
-    # Комментарий перенесен для E501
-    path("<int:pk>/delete/", views.UserDeleteView.as_view(), name="delete"),
+    path("<int:pk>/delete/", views.UserDeleteView.as_view(), name="delete"), # <-- Добавили эту строку
 ]

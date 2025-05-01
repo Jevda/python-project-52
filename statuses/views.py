@@ -20,7 +20,6 @@ class StatusesIndexView(LoginRequiredMixin, ListView):
     template_name = "statuses/index.html"
     context_object_name = "statuses"
 
-
 # Представление для СОЗДАНИЯ статуса
 class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
@@ -28,7 +27,6 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "statuses/create.html"
     success_url = reverse_lazy("statuses:index")
     success_message = "Статус успешно создан"
-
 
 # Представление для РЕДАКТИРОВАНИЯ статуса
 class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -38,7 +36,6 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy("statuses:index")
     success_message = "Статус успешно изменен"
 
-
 # Представление для УДАЛЕНИЯ статуса
 class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Status
@@ -47,8 +44,7 @@ class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     # Сообщение об успехе будет добавлено вручную при успешном удалении
     # success_message = "Статус успешно удален" # Убираем авто-сообщение
 
-    # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Переопределяем метод post ---
-    # --- для обработки ProtectedError ---
+    # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Переопределяем метод post для обработки ProtectedError ---
     def post(self, request, *args, **kwargs):
         try:
             # Пытаемся выполнить стандартное удаление из DeleteView

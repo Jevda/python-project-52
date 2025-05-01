@@ -12,13 +12,8 @@ class UserChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
         # !!! Добавляем print для финальной проверки, если хотите !!!
-        # E501 fix: wrapped line
-        # print(
-        #     f"--- DEBUG [forms.py]: label_from_instance для {obj.username},"
-        #     f" вернул '{obj.get_full_name()}'"
-        # )
+        # print(f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, вернул '{obj.get_full_name()}'")
         return obj.get_full_name()
-
 
 # --- Форма для создания и редактирования Задачи ---
 class TaskForm(forms.ModelForm):
@@ -26,8 +21,7 @@ class TaskForm(forms.ModelForm):
     executor = UserChoiceField(
         queryset=User.objects.all(),
         required=False,
-        # E261 fix: added spaces
-        label="Исполнитель",  # !!! Явная метка !!!
+        label="Исполнитель", # !!! Явная метка !!!
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -43,13 +37,8 @@ class TaskForm(forms.ModelForm):
         }
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
-            # E501 fix: wrapped line
-            "description": forms.Textarea(
-                attrs={"class": "form-control", "rows": 3},
-            ),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
             "status": forms.Select(attrs={"class": "form-select"}),
-            # E501 fix: wrapped comment
-            # 'executor': forms.Select(attrs={'class': 'form-select'}),
-            # # Убрали, т.к. widget задан выше
+            # 'executor': forms.Select(attrs={'class': 'form-select'}), # Убрали, т.к. widget задан выше
             "labels": forms.SelectMultiple(attrs={"class": "form-select"}),
         }

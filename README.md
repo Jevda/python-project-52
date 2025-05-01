@@ -1,5 +1,8 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Jevda/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Jevda/python-project-52/actions)
+[![CI](https://github.com/Jevda/python-project-52/actions/workflows/ci.yml/badge.svg)](https://github.com/Jevda/python-project-52/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Jevda_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Jevda_python-project-52)
+
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Jevda_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Jevda_python-project-52)
 

@@ -33,9 +33,14 @@ class UserViewsTests(TestCase):
 
         self.update_url = reverse("users:update", args=[self.user.pk])
         self.delete_url = reverse("users:delete", args=[self.user.pk])
-        self.other_update_url = reverse("users:update", args=[self.other_user.pk])
-        self.other_delete_url = reverse("users:delete", args=[self.other_user.pk])
-
+        self.other_update_url = reverse(
+            "users:update",
+            args=[self.other_user.pk]
+        )
+        self.other_delete_url = reverse(
+            "users:delete",
+            args=[self.other_user.pk]
+        )
 
     def test_user_list_view(self):
         url = reverse("users:index")
@@ -60,7 +65,9 @@ class UserViewsTests(TestCase):
             "password2": "NewPassword123!",
         }
         response = self.client.post(url_create, data=new_user_data)
-        user_exists = User.objects.filter(username=new_user_data["username"]).exists()
+        user_exists = User.objects.filter(
+            username=new_user_data["username"]
+        ).exists()
         self.assertTrue(user_exists, "Пользователь не был создан в БД")
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, url_login)
@@ -95,7 +102,8 @@ class UserViewsTests(TestCase):
         self.assertTemplateUsed(response, "users/delete.html")
 
     def test_user_delete_view_get_other_user_forbidden(self):
-        """Проверяет запрет доступа к странице подтверждения удаления чужого профиля."""
+        """Проверяет запрет доступа к странице подтверждения удаления чужого
+        профиля."""
         response = self.client.get(self.other_delete_url)
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, reverse("users:index"))
@@ -115,8 +123,13 @@ class UserViewsTests(TestCase):
 
         # 2. Проверяем, что пользователь ДЕЙСТВИТЕЛЬНО удален из БД
         # Используем pk пользователя, сохраненный в self.user.pk
-        user_exists_after_delete = User.objects.filter(pk=self.user.pk).exists()
-        self.assertFalse(user_exists_after_delete, "Пользователь не был удален из БД")
+        user_exists_after_delete = User.objects.filter(
+            pk=self.user.pk
+        ).exists()
+        self.assertFalse(
+            user_exists_after_delete,
+            "Пользователь не был удален из БД"
+        )
         # TODO: Позже можно добавить проверку flash-сообщения об успехе
 
     def test_user_delete_view_post_other_user_forbidden(self):
@@ -127,14 +140,24 @@ class UserViewsTests(TestCase):
         # Пытаемся отправить POST-запрос на URL удаления ДРУГОГО пользователя
         response = self.client.post(self.other_delete_url)
 
-        # 1. Проверяем редирект на список пользователей (сработал handle_no_permission)
+        # 1. Проверяем редирект на список пользователей
+        # (сработал handle_no_permission)
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, reverse("users:index"))
 
         # 2. Проверяем, что ДРУГОЙ пользователь НЕ был удален
-        other_user_exists = User.objects.filter(pk=self.other_user.pk).exists()
-        self.assertTrue(other_user_exists, "Другой пользователь был удален, хотя не должен был")
+        other_user_exists = User.objects.filter(
+            pk=self.other_user.pk
+        ).exists()
+        self.assertTrue(
+            other_user_exists,
+            "Другой пользователь был удален, хотя не должен был"
+        )
 
         # 3. Проверяем, что общее количество пользователей не изменилось
-        self.assertEqual(User.objects.count(), initial_user_count, "Общее количество пользователей изменилось")
+        self.assertEqual(
+            User.objects.count(),
+            initial_user_count,
+            "Общее количество пользователей изменилось"
+        )
         # TODO: Позже можно добавить проверку flash-сообщения об ошибке

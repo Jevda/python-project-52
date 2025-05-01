@@ -17,12 +17,14 @@ class UserRegisterForm(UserCreationForm):
             "username": "Имя пользователя",
         }
 
+
 # --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
 # Форма для редактирования пользователя
 class UserUpdateForm(forms.ModelForm):
     # Явно добавляем поля для пароля, делаем их НЕ обязательными
-    # Используем имена password1 и password2, чтобы ID были id_password1 и id_password2
-    password1 = forms.CharField( # <--- Переименовано с 'password'
+    # Используем имена password1 и password2, чтобы ID были
+    # id_password1 и id_password2
+    password1 = forms.CharField(  # <--- Переименовано с 'password'
         label="Пароль",
         required=False,
         widget=forms.PasswordInput,
@@ -48,10 +50,10 @@ class UserUpdateForm(forms.ModelForm):
     # Проверяем, что если пользователь ввел пароль, то оба поля совпадают
     def clean_password2(self):
         # Получаем значения из password1 и password2
-        password1 = self.cleaned_data.get("password1") # <--- Изменено с 'password'
+        password1 = self.cleaned_data.get("password1")  # <--- Изменено с 'password'
         password2 = self.cleaned_data.get("password2")
         # Проверяем только если оба поля чем-то заполнены
-        if password1 and password2 and password1 != password2: # <--- Изменено с 'password'
+        if password1 and password2 and password1 != password2:  # <--- Изменено с 'password'
             raise forms.ValidationError("Пароли не совпадают.")
         # Этот метод ОБЯЗАТЕЛЬНО должен вернуть значение второго пароля
         return password2
@@ -61,7 +63,7 @@ class UserUpdateForm(forms.ModelForm):
         # Сначала получаем объект пользователя из стандартного сохранения ModelForm
         user = super().save(commit=False)
         # Получаем пароль из очищенных данных формы password1
-        password = self.cleaned_data.get("password1") # <--- Изменено с 'password'
+        password = self.cleaned_data.get("password1")  # <--- Изменено с 'password'
         # Если пользователь ввел что-то в поле пароля
         if password:
             # Устанавливаем пароль с использованием set_password для хеширования

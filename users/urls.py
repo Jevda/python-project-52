@@ -16,5 +16,5 @@ urlpatterns = [
     # Редактирование (/users/<int:pk>/update/)
     path("<int:pk>/update/", views.UserUpdateView.as_view(), name="update"),
     # Удаление (/users/<int:pk>/delete/)
-    path("<int:pk>/delete/", views.UserDeleteView.as_view(), name="delete"), # <-- Добавили эту строку
+    path("<int:pk>/delete/", views.UserDeleteView.as_view(), name="delete"),
 ]

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
 # Промежуточное ПО (Middleware)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    # Whitenoise Middleware (рекомендуется размещать после SecurityMiddleware)
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -51,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 # Основной файл URL-конфигурации
@@ -118,12 +118,14 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "login" # Имя URL-маршрута для страницы входа
 
-# Опционально: Настройки Rollbar (добавятся на этапе 8)
-# ROLLBAR = {
-#     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
-#     'environment': 'development' if DEBUG else 'production',
-#     'code_version': '1.0',
-#     'root': BASE_DIR,
-# }
-# import rollbar
-# rollbar.init(**ROLLBAR)
+# Настройки Rollbar (добавленные на этапе 8)
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN', '69e58c4052284374b805c918bc447096'),
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
+
+# Инициализируем Rollbar
+import rollbar
+rollbar.init(**ROLLBAR)

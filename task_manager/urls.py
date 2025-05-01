@@ -14,4 +14,5 @@ urlpatterns = [
     path("login/", views_users.UserLoginView.as_view(), name="login"),
     path("logout/", views_users.UserLogoutView.as_view(), name="logout"),
     path("admin/", admin.site.urls),
+    path("trigger-error/", views.trigger_error, name="trigger-error"),
 ]

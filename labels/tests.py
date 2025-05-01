@@ -131,9 +131,18 @@ class LabelViewsTests(TestCase):
         self.assertRedirects(response, self.labels_index_url)
 
         # Проверка, что метка удалена
-        label_exists_after_delete = Label.objects.filter(pk=label_pk_to_delete).exists()
-        self.assertFalse(label_exists_after_delete, "Метка не была удалена из БД")
-        self.assertEqual(Label.objects.count(), initial_label_count - 1, "Количество меток не уменьшилось")
+        label_exists_after_delete = Label.objects.filter(
+            pk=label_pk_to_delete
+        ).exists()
+        self.assertFalse(
+            label_exists_after_delete,
+            "Метка не была удалена из БД"
+        )
+        self.assertEqual(
+            Label.objects.count(),
+            initial_label_count - 1,
+            "Количество меток не уменьшилось"
+        )
 
     def test_label_delete_protected_when_used(self):
         """Проверяет защиту от удаления метки, связанной с задачей."""
@@ -144,5 +153,7 @@ class LabelViewsTests(TestCase):
         self.assertRedirects(response, self.labels_index_url)
 
         # Проверка, что метка НЕ удалена
-        self.assertTrue(Label.objects.filter(pk=self.label.pk).exists(),
-                        "Метка была удалена, хотя она связана с задачами")
+        self.assertTrue(
+            Label.objects.filter(pk=self.label.pk).exists(),
+            "Метка была удалена, хотя она связана с задачами"
+        )

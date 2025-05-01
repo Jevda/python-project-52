@@ -28,9 +28,13 @@ class StatusViewsTests(TestCase):
         # Сохраняем все нужные URL'ы
         self.statuses_index_url = reverse("statuses:index")
         self.status_create_url = reverse("statuses:create")
-        self.status_update_url = reverse("statuses:update", args=[self.status.pk])
+        self.status_update_url = reverse(
+            "statuses:update", args=[self.status.pk]
+        )
         # URL удаления
-        self.status_delete_url = reverse("statuses:delete", args=[self.status.pk])
+        self.status_delete_url = reverse(
+            "statuses:delete", args=[self.status.pk]
+        )
         self.login_url = reverse("login")
 
     def test_status_list_view_requires_login(self):
@@ -41,7 +45,8 @@ class StatusViewsTests(TestCase):
         self.assertEqual(response.url.split("?")[0], self.login_url)
 
     def test_status_list_view_get_success(self):
-        """Проверяет доступность и шаблон списка статусов для залогиненного пользователя."""
+        """Проверяет доступность и шаблон списка статусов для залогиненного
+        пользователя."""
         response = self.client.get(self.statuses_index_url)
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
         self.assertTemplateUsed(response, "statuses/index.html")
@@ -56,7 +61,9 @@ class StatusViewsTests(TestCase):
     def test_status_create_view_post_success(self):
         """Проверяет создание статуса и редирект."""
         new_status_data = {"name": "New Test Status"}
-        response = self.client.post(self.status_create_url, data=new_status_data)
+        response = self.client.post(
+            self.status_create_url, data=new_status_data
+        )
         self.assertTrue(Status.objects.filter(name=new_status_data["name"]).exists())
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, self.statuses_index_url)
@@ -95,7 +102,16 @@ class StatusViewsTests(TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.FOUND)
         self.assertRedirects(response, self.statuses_index_url)
 
-        status_exists_after_delete = Status.objects.filter(pk=status_pk_to_delete).exists()
-        self.assertFalse(status_exists_after_delete, "Статус не был удален из БД")
+        status_exists_after_delete = Status.objects.filter(
+            pk=status_pk_to_delete
+        ).exists()
+        self.assertFalse(
+            status_exists_after_delete,
+            "Статус не был удален из БД"
+        )
 
-        self.assertEqual(Status.objects.count(), initial_status_count - 1, "Количество статусов не уменьшилось")
+        self.assertEqual(
+            Status.objects.count(),
+            initial_status_count - 1,
+            "Количество статусов не уменьшилось"
+        )

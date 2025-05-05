@@ -57,7 +57,10 @@ class TaskDeleteView(
         return self.request.user == task.author
 
     def handle_no_permission(self):
-        messages.error(self.request, _("A task can only be deleted by its author"))
+        messages.error(
+            self.request,
+            _("A task can only be deleted by its author")
+        )
         return redirect("tasks:index")
 
 

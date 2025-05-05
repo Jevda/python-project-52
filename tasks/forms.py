@@ -1,32 +1,20 @@
-# tasks/forms.py
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 from .models import Task
 
 
-# --- Определение UserChoiceField (здесь, один раз) ---
 class UserChoiceField(forms.ModelChoiceField):
-    """Кастомное поле для выбора пользователя, отображающее полное имя.
-    """
-
     def label_from_instance(self, obj):
-        # Комментарий для отладки, при необходимости
-        # Разбит на несколько строк для соблюдения ограничения в 80 символов
-        # print(
-        #    f"--- DEBUG [forms.py]: label_from_instance для {obj.username}, "
-        #    f"вернул '{obj.get_full_name()}'"
-        # )
         return obj.get_full_name()
 
 
-# --- Форма для создания и редактирования Задачи ---
 class TaskForm(forms.ModelForm):
-    # --- Явное определение поля executor с ЯВНОЙ меткой ---
     executor = UserChoiceField(
         queryset=User.objects.all(),
         required=False,
-        label="Исполнитель",  # !!! Явная метка !!!
+        label=_("Executor"),
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
@@ -34,11 +22,10 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ["name", "description", "status", "executor", "labels"]
         labels = {
-            "name": "Имя",
-            "description": "Описание",
-            "status": "Статус",
-            # 'executor': 'Исполнитель', # Убрали, т.к. label задан выше
-            "labels": "Метки",
+            "name": _("Name"),
+            "description": _("Description"),
+            "status": _("Status"),
+            "labels": _("Labels"),
         }
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
@@ -46,7 +33,5 @@ class TaskForm(forms.ModelForm):
                 attrs={"class": "form-control", "rows": 3}
             ),
             "status": forms.Select(attrs={"class": "form-select"}),
-            # 'executor': forms.Select(attrs={'class': 'form-select'}),
-            # Убрали, т.к. widget задан выше
             "labels": forms.SelectMultiple(attrs={"class": "form-select"}),
         }

@@ -1,9 +1,9 @@
-# tasks/views.py
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
@@ -29,7 +29,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = "Задача успешно создана"
+    success_message = _("Task successfully created")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -41,7 +41,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = "Задача успешно изменена"
+    success_message = _("Task successfully updated")
 
 
 class TaskDeleteView(
@@ -50,23 +50,19 @@ class TaskDeleteView(
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = "Задача успешно удалена"
+    success_message = _("Task successfully deleted")
 
-    # Проверка прав: может ли текущий пользователь удалить задачу?
     def test_func(self):
         task = self.get_object()
-        # Удалить может только автор
         return self.request.user == task.author
 
-    # Обработка ситуации, когда прав нет (test_func вернул False)
     def handle_no_permission(self):
-        # --- ИЗМЕНЕНИЕ ЗДЕСЬ: Заменяем 'ё' на 'е' ---
-        messages.error(self.request, "Задачу может удалить только ее автор")
-        # --- КОНЕЦ ИЗМЕНЕНИЯ ---
-        return redirect("tasks:index")  # Редирект на список задач
+        messages.error(self.request, _("Task can only be deleted by its author"))
+        return redirect("tasks:index")
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/detail.html"
     context_object_name = "task"
+    

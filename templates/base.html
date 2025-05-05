@@ -1,4 +1,5 @@
-{% load i18n django_bootstrap5 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="ru" class="h-100">
 <head>
@@ -15,36 +16,36 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:index' %}">{% trans "Users" %}</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'statuses:index' %}">{% trans "Statuses" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'labels:index' %}">{% trans "Labels" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'tasks:index' %}">{% trans "Tasks" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{% url 'logout' %}" method="post" class="nav-link p-0">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link">{% trans "Logout" %}</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'users:create' %}">{% trans "Register" %}</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:index' %}">{% trans "Users" %}</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'statuses:index' %}">{% trans "Statuses" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'labels:index' %}">{% trans "Labels" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tasks:index' %}">{% trans "Tasks" %}</a>
+            </li>
+            <li class="nav-item">
+                <form action="{% url 'logout' %}" method="post" class="nav-link p-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link nav-link">{% trans "Logout" %}</button>
+                </form>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:create' %}">{% trans "Registration" %}</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
         </div>
     </nav>
 

@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
 from .forms import UserRegisterForm, UserUpdateForm
 
 
@@ -19,7 +20,7 @@ class UsersIndexView(ListView):
 class UserRegisterView(SuccessMessageMixin, CreateView):
     form_class = UserRegisterForm
     template_name = "users/create.html"
-    success_message = _("User registered successfully")
+    success_message = _("User successfully registered")
 
     def get_success_url(self):
         return reverse_lazy("login")
@@ -47,7 +48,7 @@ class UserUpdateView(
     form_class = UserUpdateForm
     template_name = "users/update.html"
     success_url = reverse_lazy("users:index")
-    success_message = _("User updated successfully")
+    success_message = _("User successfully updated")
 
     def test_func(self):
         return self.get_object() == self.request.user
@@ -55,7 +56,7 @@ class UserUpdateView(
     def handle_no_permission(self):
         messages.error(
             self.request,
-            _("You do not have permission to change another user.")
+            _("You don't have rights to change another user.")
         )
         return redirect("users:index")
 
@@ -66,7 +67,7 @@ class UserDeleteView(
     model = User
     template_name = "users/delete.html"
     success_url = reverse_lazy("users:index")
-    success_message = _("User deleted successfully")
+    success_message = _("User successfully deleted")
 
     def test_func(self):
         return self.get_object() == self.request.user
@@ -74,6 +75,6 @@ class UserDeleteView(
     def handle_no_permission(self):
         messages.error(
             self.request,
-            _("You do not have permission to change another user.")
+            _("You don't have rights to change another user.")
         )
         return redirect("users:index")

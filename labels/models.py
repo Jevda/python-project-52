@@ -10,7 +10,7 @@ class Label(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name=_("Creation date"),
+        verbose_name=_("Created at"),
     )
 
     def __str__(self):

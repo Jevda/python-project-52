@@ -1,10 +1,10 @@
+# task_manager/settings.py
 import os
 import sys
 from pathlib import Path
+
 import dj_database_url
 from dotenv import load_dotenv
-# Добавляем импорт gettext_lazy для LANGUAGES
-from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +38,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    # LocaleMiddleware определяет язык по заголовку Accept-Language браузера
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -84,25 +83,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# --- Настройки интернационализации ---
-# Язык по умолчанию, если не определен иначе (например, браузером)
-LANGUAGE_CODE = "ru-ru"
-
-# Список доступных языков (рекомендуется)
-LANGUAGES = [
-    ('en', _('English')),
-    ('ru', _('Russian')),
-]
-
+LANGUAGE_CODE = "ru"
 TIME_ZONE = "Europe/Riga"
 USE_I18N = True
-USE_TZ = True
+#USE_TZ = True
 
-# Путь к файлам переводов
 LOCALE_PATHS = [
-    BASE_DIR / 'locale',
+    BASE_DIR / "locale",
 ]
-# --- Конец настроек интернационализации ---
+
+LANGUAGES = [
+#    ('en', 'English'),
+    ('ru', 'Russian'),
+]
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"

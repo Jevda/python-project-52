@@ -20,13 +20,13 @@ class UserUpdateForm(forms.ModelForm):
         label=_("Password"),
         required=False,
         widget=forms.PasswordInput,
-        help_text=_("Leave blank if you don't want to change the password."),
+        help_text=_("Leave blank if you don't want to change password."),
     )
     password2 = forms.CharField(
         label=_("Password confirmation"),
         required=False,
         widget=forms.PasswordInput,
-        help_text=_("Repeat the password if you are changing it."),
+        help_text=_("Repeat password if you change it."),
     )
 
     class Meta:

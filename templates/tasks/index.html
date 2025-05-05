@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load i18n django_bootstrap5 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
 
 {% block title %}{% trans "Tasks" %}{% endblock %}
 
@@ -41,12 +42,12 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>{% trans "ID" %}</th>
                 <th>{% trans "Name" %}</th>
                 <th>{% trans "Status" %}</th>
                 <th>{% trans "Author" %}</th>
                 <th>{% trans "Executor" %}</th>
-                <th>{% trans "Creation date" %}</th>
+                <th>{% trans "Created at" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
@@ -62,14 +63,14 @@
                 <td>{{ task.executor.get_full_name|default:"" }}</td>
                 <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'tasks:update' task.pk %}">{% trans "Edit" %}</a>
+                    <a href="{% url 'tasks:update' task.pk %}">{% trans "Update" %}</a>
                     <br>
                     <a href="{% url 'tasks:delete' task.pk %}">{% trans "Delete" %}</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7" class="text-center">{% trans "No tasks matching the selected filters" %}</td>
+                <td colspan="7" class="text-center">{% trans "No tasks matching filters" %}</td>
             </tr>
             {% endfor %}
         </tbody>

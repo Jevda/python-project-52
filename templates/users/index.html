@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load i18n django_bootstrap5 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
 
 {% block title %}{% trans "Users" %}{% endblock %}
 
@@ -9,10 +10,10 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>{% trans "ID" %}</th>
                 <th>{% trans "Username" %}</th>
                 <th>{% trans "Full name" %}</th>
-                <th>{% trans "Creation date" %}</th>
+                <th>{% trans "Created at" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
@@ -24,7 +25,7 @@
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                 <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'users:update' user.pk %}">{% trans "Edit" %}</a>
+                    <a href="{% url 'users:update' user.pk %}">{% trans "Update" %}</a>
                     <br>
                     <a href="{% url 'users:delete' user.pk %}">{% trans "Delete" %}</a>
                 </td>

@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load i18n %}
 
-{% block title %}Метки{% endblock %}
+{% block title %}{% trans "Labels" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">Метки</h1>
+    <h1 class="my-4">{% trans "Labels" %}</h1>
 
-    <a class="btn btn-primary mb-3" href="{% url 'labels:create' %}">Создать метку</a>
+    <a class="btn btn-primary mb-3" href="{% url 'labels:create' %}">{% trans "Create label" %}</a>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Дата создания</th>
-                <th>Действия</th>
+                <th>{% trans "ID" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Created at" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -25,9 +26,9 @@
                 <td>{{ label.name }}</td>
                 <td>{{ label.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'labels:update' label.pk %}">Изменить</a>
+                    <a href="{% url 'labels:update' label.pk %}">{% trans "Update" %}</a>
                     <br>
-                    <a href="{% url 'labels:delete' label.pk %}">Удалить</a>
+                    <a href="{% url 'labels:delete' label.pk %}">{% trans "Delete" %}</a>
                 </td>
             </tr>
             {% endfor %}

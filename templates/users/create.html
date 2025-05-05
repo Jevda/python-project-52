@@ -1,20 +1,16 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load i18n %}
 
-{% block title %}Регистрация{% endblock %}
+{% block title %}{% trans "Registration" %}{% endblock %}
 
 {% block content %}
-<div class="container wrapper flex-grow-1"> {# Используем контейнер для ограничения ширины #}
-    <h1 class="my-4">Регистрация</h1>
-    {# Форма отправляет POST-запрос на этот же URL #}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">{% trans "Registration" %}</h1>
     <form method="post">
-        {# CSRF токен ОБЯЗАТЕЛЕН для безопасности POST-форм в Django #}
         {% csrf_token %}
-        {# Используем тег django-bootstrap5 для рендеринга всей формы #}
-        {# Он автоматически создаст разметку для полей, меток, ошибок #}
         {% bootstrap_form form %}
-        {# Добавляем кнопку отправки формы #}
-        {% bootstrap_button button_type="submit" content="Зарегистрировать" %}
+        {% bootstrap_button button_type="submit" content=_("Register") %}
     </form>
 </div>
 {% endblock %}

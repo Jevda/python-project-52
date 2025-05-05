@@ -1,40 +1,23 @@
-# statuses/models.py
-# Файл для моделей приложения statuses
-
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
-# Определяем модель для статуса задачи
 class Status(models.Model):
-    # Имя статуса: текстовое поле, максимальная длина 100 символов,
-    # должно быть уникальным, не может быть пустым.
-    # verbose_name - имя поля для отображения в интерфейсах (например, админке)
     name = models.CharField(
         max_length=100,
         unique=True,
         blank=False,
         null=False,
-        verbose_name="Имя",
+        verbose_name=_("Name"),
     )
-    # Дата создания: поле даты и времени,
-    # auto_now_add=True означает, что значение установится автоматически
-    # при создании объекта и не будет меняться позже.
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Дата создания",
+        verbose_name=_("Created at"),
     )
 
-    # Метод __str__ определяет, как объект будет представлен в виде строки
-    # (например, в админке или при выводе в шаблоне).
-    # Возвращаем имя статуса.
     def __str__(self):
         return self.name
 
-    # Добавляем внутренний класс Meta для дополнительных настроек модели
     class Meta:
-        # Имя модели в единственном числе для админки Django
-        verbose_name = "Статус"
-        # Имя модели во множественном числе для админки Django
-        verbose_name_plural = "Статусы"
-        # Можно указать сортировку по умолчанию, например, по дате создания
-        # ordering = ['created_at']
+        verbose_name = _("Status")
+        verbose_name_plural = _("Statuses")

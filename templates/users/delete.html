@@ -1,20 +1,16 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load i18n %}
 
-{% block title %}Удаление пользователя{% endblock %}
+{% block title %}{% trans "Delete user" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">Удаление пользователя</h1>
-    {# DeleteView передает удаляемый объект в контекст под именем 'object' #}
-    <p>Вы уверены, что хотите удалить пользователя {{ object.username }}?</p>
-    {# Форма отправляет POST-запрос на этот же URL (/users/USER_ID/delete/) для подтверждения #}
+    <h1 class="my-4">{% trans "Delete user" %}</h1>
+    <p>{% trans "Are you sure you want to delete user" %} {{ object.username }}?</p>
     <form method="post">
         {% csrf_token %}
-        {# Используем кнопку с красным цветом (btn-danger) для акцента #}
-        {% bootstrap_button button_type="submit" button_class="btn btn-danger" content="Да, удалить" %}
-        {# Можно добавить ссылку для отмены #}
-        {# <a class="btn btn-secondary" href="{% url 'users:index' %}">Отмена</a> #}
+        {% bootstrap_button button_type="submit" button_class="btn btn-danger" content=_("Yes, delete") %}
     </form>
 </div>
 {% endblock %}

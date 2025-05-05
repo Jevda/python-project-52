@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load i18n %}
 
-{% block title %}Изменение пользователя{% endblock %}
+{% block title %}{% trans "Update user" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">Изменение пользователя</h1>
-    {# Форма отправляет POST-запрос на этот же URL (/users/USER_ID/update/) #}
+    <h1 class="my-4">{% trans "Update user" %}</h1>
     <form method="post">
         {% csrf_token %}
-        {# Рендерим форму редактирования с помощью django-bootstrap5 #}
         {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="Изменить" %}
-    </form> {# <-- form закрыт #}
-</div> {# <-- div закрыт #}
-{% endblock %} {# <-- block закрыт #}
+        {% bootstrap_button button_type="submit" content=_("Update") %}
+    </form>
+</div>
+{% endblock %}

@@ -18,6 +18,7 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS = [
+    "task_manager.apps.TaskManagerConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Наш middleware размещаем ПЕРЕД LocaleMiddleware
+    "middleware.force_language.ForceDefaultLanguageMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -82,19 +85,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "ru"
-TIME_ZONE = "Europe/Riga"
+# Язык по умолчанию - русский
+LANGUAGE_CODE = 'ru'
+TIME_ZONE = 'Europe/Riga'
 USE_I18N = True
 USE_TZ = True
 
-from django.utils.translation import gettext_lazy as _
-LANGUAGES = [
-    ('en', _('English')),
-    ('ru', _('Russian')),
-]
-
+# Указываем путь к папке с переводами
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
+]
+
+# Указываем поддерживаемые языки
+from django.utils.translation import gettext_lazy as _
+LANGUAGES = [
+    ('ru', _('Russian')),
+    ('en', _('English')),
 ]
 
 STATIC_URL = "static/"

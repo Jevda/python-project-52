@@ -18,7 +18,6 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS = [
-    "task_manager.apps.TaskManagerConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,7 +37,8 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # Наш middleware размещаем ПЕРЕД LocaleMiddleware
-    "middleware.force_language.ForceDefaultLanguageMiddleware",
+    # Используем middleware из task_manager пакета вместо папки middleware
+    "task_manager.middleware.ForceDefaultLanguageMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",

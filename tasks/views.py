@@ -6,7 +6,6 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-
 from .filters import TaskFilter
 from .forms import TaskForm
 from .models import Task
@@ -29,7 +28,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = _("Task successfully created")
+    success_message = _("Task created successfully")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -41,7 +40,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = _("Task successfully updated")
+    success_message = _("Task updated successfully")
 
 
 class TaskDeleteView(
@@ -50,14 +49,14 @@ class TaskDeleteView(
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("tasks:index")
-    success_message = _("Task successfully deleted")
+    success_message = _("Task deleted successfully")
 
     def test_func(self):
         task = self.get_object()
         return self.request.user == task.author
 
     def handle_no_permission(self):
-        messages.error(self.request, _("Task can only be deleted by its author"))
+        messages.error(self.request, _("A task can only be deleted by its author"))
         return redirect("tasks:index")
 
 
@@ -65,4 +64,3 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/detail.html"
     context_object_name = "task"
-    

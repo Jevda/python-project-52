@@ -1,13 +1,11 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
-{% block title %}{% translate "Login" %}{% endblock %}
+{% block title %}{% trans "Login" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">{% translate "Login" %}</h1>
-
+    <h1 class="my-4">{% trans "Login" %}</h1>
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}

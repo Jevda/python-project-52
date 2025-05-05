@@ -1,17 +1,15 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
+{% load i18n django_bootstrap5 %}
 
-{% block title %}Изменение статуса{% endblock %}
+{% block title %}{% trans "Edit status" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">Изменение статуса</h1>
-    {# Форма отправляет POST-запрос на этот же URL (/statuses/<pk>/update/) #}
+    <h1 class="my-4">{% trans "Edit status" %}</h1>
     <form method="post">
         {% csrf_token %}
-        {# Рендерим форму StatusForm (предзаполненную данными статуса) #}
         {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="Изменить" %}
+        {% bootstrap_button button_type="submit" content=_("Edit") %}
     </form>
 </div>
 {% endblock %}

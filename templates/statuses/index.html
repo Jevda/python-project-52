@@ -1,22 +1,21 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
-{% block title %}{% translate "Statuses" %}{% endblock %}
+{% block title %}{% trans "Statuses" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">{% translate "Statuses" %}</h1>
+    <h1 class="my-4">{% trans "Statuses" %}</h1>
 
-    <a class="btn btn-primary mb-3" href="{% url 'statuses:create' %}">{% translate "Create status" %}</a>
+    <a class="btn btn-primary mb-3" href="{% url 'statuses:create' %}">{% trans "Create status" %}</a>
 
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>{% translate "Name" %}</th>
-                <th>{% translate "Creation date" %}</th>
-                <th>{% translate "Actions" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Creation date" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +25,9 @@
                 <td>{{ status.name }}</td>
                 <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'statuses:update' status.pk %}">{% translate "Edit" %}</a>
+                    <a href="{% url 'statuses:update' status.pk %}">{% trans "Edit" %}</a>
                     <br>
-                    <a href="{% url 'statuses:delete' status.pk %}">{% translate "Delete" %}</a>
+                    <a href="{% url 'statuses:delete' status.pk %}">{% trans "Delete" %}</a>
                 </td>
             </tr>
             {% endfor %}

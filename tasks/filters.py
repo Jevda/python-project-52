@@ -1,21 +1,19 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-
 from django_filters import (
     BooleanFilter,
     ChoiceFilter,
     FilterSet,
     ModelChoiceFilter,
 )
-
 from labels.models import Label
 from statuses.models import Status
-
 from .models import Task
 
 
 class TaskFilter(FilterSet):
+
     executor = ChoiceFilter(
         label=_("Executor"),
         empty_label=_("All executors"),
@@ -38,7 +36,7 @@ class TaskFilter(FilterSet):
 
     self_tasks = BooleanFilter(
         field_name="author",
-        label=_("Only self tasks"),
+        label=_("Only my tasks"),
         method="filter_self_tasks",
         widget=forms.CheckboxInput,
     )

@@ -20,13 +20,13 @@ class UserUpdateForm(forms.ModelForm):
         label=_("Password"),
         required=False,
         widget=forms.PasswordInput,
-        help_text=_("Leave empty if you don't want to change password."),
+        help_text=_("Leave blank if you don't want to change the password."),
     )
     password2 = forms.CharField(
         label=_("Password confirmation"),
         required=False,
         widget=forms.PasswordInput,
-        help_text=_("Repeat password if changing it."),
+        help_text=_("Repeat the password if you are changing it."),
     )
 
     class Meta:
@@ -42,7 +42,7 @@ class UserUpdateForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(_("Passwords don't match."))
+            raise forms.ValidationError(_("Passwords do not match."))
         return password2
 
     def save(self, commit=True):

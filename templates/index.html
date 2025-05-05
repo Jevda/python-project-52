@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
-{% block title %}Hexlet Task Manager{% endblock %}
+{% block title %}{% trans "Task Manager Hexlet" %}{% endblock %}
 
 {% block content %}
 <div class="card">
   <div class="card-body p-5 bg-light">
-    <div class="display-4">{% translate "Hello from Hexlet!" %}</div>
-    <p class="lead">{% translate "Practical programming courses" %}</p>
+    <div class="display-4">{% trans "Hello from Hexlet!" %}</div>
+    <p class="lead">{% trans "Practical programming courses" %}</p>
     <hr>
-    <a class="btn btn-primary btn-lg" href="https://ru.hexlet.io" target="_blank">{% translate "Learn more" %}</a>
+    <a class="btn btn-primary btn-lg" href="https://ru.hexlet.io" target="_blank">{% trans "Learn more" %}</a>
   </div>
 </div>
 {% endblock %}

@@ -1,26 +1,25 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
-{% block title %}{% translate "Task View" %}{% endblock %}
+{% block title %}{% trans "View task" %}{% endblock %}
 
 {% block content %}
 <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">{% translate "Task View" %}</h1>
+    <h1 class="my-4">{% trans "View task" %}</h1>
 
     <div class="card">
         <div class="card-header">
             <h2>{{ task.name }}</h2>
         </div>
         <div class="card-body">
-            <p><strong>{% translate "Description" %}:</strong> {{ task.description }}</p>
-            <p><strong>{% translate "Status" %}:</strong> {{ task.status.name }}</p>
-            <p><strong>{% translate "Author" %}:</strong> {{ task.author.get_full_name }}</p>
-            <p><strong>{% translate "Executor" %}:</strong> {{ task.executor.get_full_name|default:_("Not assigned") }}</p>
-            <p><strong>{% translate "Creation date" %}:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+            <p><strong>{% trans "Description" %}:</strong> {{ task.description }}</p>
+            <p><strong>{% trans "Status" %}:</strong> {{ task.status.name }}</p>
+            <p><strong>{% trans "Author" %}:</strong> {{ task.author.get_full_name }}</p>
+            <p><strong>{% trans "Executor" %}:</strong> {{ task.executor.get_full_name|default:_("Not assigned") }}</p>
+            <p><strong>{% trans "Creation date" %}:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
 
             {% if task.labels.exists %}
-            <p><strong>{% translate "Labels" %}:</strong></p>
+            <p><strong>{% trans "Labels" %}:</strong></p>
             <ul>
                 {% for label in task.labels.all %}
                 <li>{{ label.name }}</li>
@@ -29,11 +28,11 @@
             {% endif %}
         </div>
         <div class="card-footer">
-            <a href="{% url 'tasks:update' task.pk %}" class="btn btn-primary">{% translate "Edit" %}</a>
+            <a href="{% url 'tasks:update' task.pk %}" class="btn btn-primary">{% trans "Edit" %}</a>
             {% if request.user == task.author %}
-                <a href="{% url 'tasks:delete' task.pk %}" class="btn btn-danger">{% translate "Delete" %}</a>
+                <a href="{% url 'tasks:delete' task.pk %}" class="btn btn-danger">{% trans "Delete" %}</a>
             {% endif %}
-            <a href="{% url 'tasks:index' %}" class="btn btn-secondary">{% translate "Back" %}</a>
+            <a href="{% url 'tasks:index' %}" class="btn btn-secondary">{% trans "Back" %}</a>
         </div>
     </div>
 </div>
